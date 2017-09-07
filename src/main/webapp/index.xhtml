@@ -1,0 +1,90 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>Menú</title>
+</h:head>
+<h:body>
+	<p:growl id="msgs" showDetail="true" />
+	<p:accordionPanel id="aPanel" style="width:45%;float:left">
+		<p:ajax event="tabChange" listener="#{viewManager.onTabChange}"
+			update=":msgs" />
+		<p:ajax event="tabClose" listener="#{viewManager.onTabClose}"
+			update=":msgs" />
+		<p:tab title="Add User">
+			<h:form id="fadd">
+				<ul style="list-style: none;">
+					<li><span style="float: left; width: 100px;">DNI:</span> <h:inputText
+							value="#{viewManager.u.dni}" /></li>
+					<li><span style="float: left; width: 100px;">Nombre:</span> <h:inputText
+							value="#{viewManager.u.nombre}" /></li>
+					<li><span style="float: left; width: 100px;">Apellidos:</span>
+						<h:inputText value="#{viewManager.u.apellidos}" /></li>
+					<li><span style="float: left; width: 100px;">Edad:</span> <h:inputText
+							value="#{viewManager.u.edad}" /></li>
+					<li style="text-align: center; margin-top: 19px;"><p:commandButton
+							value="Registrar" action="#{viewManager.addUser}"
+							update=":form2:flist,:aPanel:fupdate:oneMenu1,:aPanel:fdelete:oneMenu2,:aPanel:fadd" /></li>
+				</ul>
+			</h:form>
+		</p:tab>
+		<p:tab title="Delete User">
+			<h:form id="fdelete">
+				<ul style="list-style: none;">
+					<li><span style="float: left; width: 100px;">DNI:</span> <h:selectOneMenu
+							id="oneMenu2" value="#{viewManager.u.dni}" style="width: 120px;">
+							<f:selectItem itemValue="#{null}" itemLabel="Select" />
+							<f:selectItems value="#{viewManager.listaDni}" />
+						</h:selectOneMenu></li>
+					<li style="text-align: center; margin-top: 19px;"><p:commandButton
+							value="Eliminar" action="#{viewManager.deleteUser}"
+							update=":form2:flist,:aPanel:fupdate:oneMenu1,:aPanel:fdelete:oneMenu2" /></li>
+				</ul>
+			</h:form>
+		</p:tab>
+		<p:tab title="Update User">
+			<h:form id="fupdate">
+				<ul style="list-style: none;">
+					<li><span style="float: left; width: 100px;">DNI:</span> <h:selectOneMenu
+							id="oneMenu1" value="#{viewManager.u.dni}" style="width: 120px;">
+							<f:selectItem itemValue="#{null}" itemLabel="Select" />
+							<f:selectItems value="#{viewManager.listaDni}" />
+						</h:selectOneMenu></li>
+					<li><span style="float: left; width: 100px;">Nombre:</span> <h:inputText
+							value="#{viewManager.u.nombre}" /></li>
+					<li><span style="float: left; width: 100px;">Apellidos:</span>
+						<h:inputText value="#{viewManager.u.apellidos}" /></li>
+					<li><span style="float: left; width: 100px;">Edad:</span> <h:inputText
+							value="#{viewManager.u.edad}" /></li>
+					<li style="text-align: center; margin-top: 19px;"><p:commandButton
+							value="Actualizar" action="#{viewManager.updateUser}"
+							update=":form2:flist,:aPanel:fupdate" /></li>
+				</ul>
+			</h:form>
+		</p:tab>
+	</p:accordionPanel>
+	<h:form id="form2">
+		<p:dataTable id="flist" var="user"
+			value="#{viewManager.listaUsuarios}" rows="9" paginator="true"
+			paginatorPosition="top"
+			paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+			rowsPerPageTemplate="5,10,15" style="width:54%;float:right;">
+			<p:column headerText="DNI" sortBy="#{user.dni}">
+				<h:outputText value="#{user.dni}" />
+			</p:column>
+			<p:column headerText="Nombre" sortBy="#{user.nombre}">
+				<h:outputText value="#{user.nombre}" />
+			</p:column>
+			<p:column headerText="Apellidos" sortBy="#{user.apellidos}">
+				<h:outputText value="#{user.apellidos}" />
+			</p:column>
+			<p:column headerText="Edad" sortBy="#{user.edad}">
+				<h:outputText value="#{user.edad}" />
+			</p:column>
+		</p:dataTable>
+	</h:form>
+</h:body>
+</html>
